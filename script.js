@@ -5,19 +5,25 @@ const eraserBtn = document.querySelector('#eraser-btn');
 const normalBtn = document.querySelector('#normal-btn');
 const gradientBtn = document.querySelector('#gradient-btn');
 const rainbowBtn = document.querySelector('#rainbow-btn');
+const hoverCheck = document.querySelector('#hover-check');
 let canvas;
 let gridSquares;
 let mode = 'rainbow';
 let eraser = false;
 let boxColour = 'black';
+let hoverMode = true;
 let size = 16;
+let mouseDown = false;
 
 button.addEventListener('click', onReset);
 colourInput.addEventListener('change', (e) => {boxColour = e.target.value});
+hoverCheck.addEventListener('click', (e)=> {hoverMode = !hoverMode});
 eraserBtn.addEventListener('click', ()=> eraser = !eraser);
 normalBtn.addEventListener('click', ()=>  mode = 'normal');
 gradientBtn.addEventListener('click', ()=> mode = 'gradient');
 rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
+container.addEventListener('mousedown', ()=> mouseDown = true);
+container.addEventListener('mouseup', ()=> mouseDown = false);
 
 
 function randomColour() {
@@ -37,24 +43,30 @@ function onReset () {
 function onHover(gridSquare) {
     gridSquare.style.opacity = 0;
     gridSquare.addEventListener('mouseover', (e) => {
-        if (eraser) {
-            e.target.style.opacity = 1;
-            e.target.style.backgroundColor = 'white';
-        } else {
-            if (mode == 'normal') {
+        if (hoverMode == true || mouseDown == true) {
+            if (eraser) {
                 e.target.style.opacity = 1;
-                e.target.style.backgroundColor = boxColour;
-            }
-            else if (mode == 'gradient') {
-                e.target.style.backgroundColor = boxColour;
-                if (e.target.style.opacity <= 1) e.target.style.opacity = Number(e.target.style.opacity) + .1;
-            }
-            else if (mode == 'rainbow') {
-                e.target.style.opacity = 1;
-                e.target.style.backgroundColor = randomColour();
+                e.target.style.backgroundColor = 'white';
+            } else {
+                if (mode == 'normal') {
+                    e.target.style.opacity = 1;
+                    e.target.style.backgroundColor = boxColour;
+                }
+                else if (mode == 'gradient') {
+                    e.target.style.backgroundColor = boxColour;
+                    if (e.target.style.opacity <= 1) e.target.style.opacity = Number(e.target.style.opacity) + .1;
+                }
+                else if (mode == 'rainbow') {
+                    e.target.style.opacity = 1;
+                    e.target.style.backgroundColor = randomColour();
+                }
             }
         }
     });
+}
+
+function detectMouseUp() {
+
 }
 
 function createCanvas(size) {
@@ -77,6 +89,7 @@ function createCanvas(size) {
 
     gridSquares = document.querySelectorAll('.gridSquare');
     gridSquares.forEach(onHover);
+    gridSquares.forEach(onClick);
 }
 
 
