@@ -9,6 +9,7 @@
 body {
     background-color: rgb(36, 202, 147);
     background-image: radial-gradient(rgb(0, 207, 93), rgb(0, 149, 168));
+    cursor: url("pencil.png"), default;
 }
 
 #container {
@@ -32,7 +33,6 @@ body {
     min-width: 600px;
     min-height: 600px;
     background-color: white;
-    cursor: url("pencil.png"), default;
 }
 
 button {

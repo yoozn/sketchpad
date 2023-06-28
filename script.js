@@ -26,16 +26,17 @@ container.addEventListener('mousedown', ()=> mouseDown = true);
 container.addEventListener('mouseup', ()=> mouseDown = false);
 body.addEventListener('keydown', (e)  => {
     if (e.code == "KeyE") toggleEraser() 
+    if (e.code == "KeyR") createCanvas(size);
 });
 eraserBtn.addEventListener('click', toggleEraser);
 
 function toggleEraser() {
     eraser = !eraser
     if (eraser) {
-        canvas.style.cursor = 'url("eraser.png"), default';
+        body.style.cursor = 'url("eraser.png"), default';
         }
         else {
-            canvas.style.cursor = 'url("pencil.png"), default';
+            body.style.cursor = 'url("pencil.png"), default';
         }
 }
 
