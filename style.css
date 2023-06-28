@@ -26,9 +26,9 @@ body {
 
 .canvas {
     display:flex;
-    border: .5em solid red;
+    border: .5em solid rgb(35, 193, 255);
     border-radius: .6em;
-    box-shadow: .5em .5em rgb(56, 0, 0);
+    box-shadow: .5em .5em rgb(0, 34, 39);
     min-width: 600px;
     min-height: 600px;
     background-color: white;
