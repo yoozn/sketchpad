@@ -72,7 +72,7 @@ function onClick(gridSquare) {
 function colourSquare(e) {
     if (hoverMode == true || mouseDown == true || e.type == 'click') {
         if (eraser) {
-            e.target.style.opacity = 1;
+            e.target.style.opacity = 0;
             e.target.style.backgroundColor = 'white';
         } else {
             if (mode == 'normal') {
