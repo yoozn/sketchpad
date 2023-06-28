@@ -18,7 +18,15 @@ let mouseDown = false;
 button.addEventListener('click', onReset);
 colourInput.addEventListener('change', (e) => {boxColour = e.target.value});
 hoverCheck.addEventListener('click', (e)=> {hoverMode = !hoverMode});
-eraserBtn.addEventListener('click', ()=> eraser = !eraser);
+eraserBtn.addEventListener('click', ()=>  {  
+    eraser = !eraser
+    if (eraser) {
+        canvas.style.cursor = 'url("eraser.png"), default';
+        }
+        else {
+            canvas.style.cursor = 'url("pencil.png"), default';
+        }
+    });
 normalBtn.addEventListener('click', ()=>  mode = 'normal');
 gradientBtn.addEventListener('click', ()=> mode = 'gradient');
 rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
