@@ -8,6 +8,7 @@
 
 body {
     background-color: rgb(36, 202, 147);
+    background-image: radial-gradient(rgb(0, 207, 93), rgb(0, 149, 168));
 }
 
 #container {
