@@ -26,6 +26,8 @@ body {
 .canvas {
     display:flex;
     border: .5em solid red;
+    border-radius: .6em;
+    box-shadow: .5em .5em rgb(56, 0, 0);
     min-width: 600px;
     min-height: 600px;
     background-color: white;
@@ -35,10 +37,10 @@ body {
     display: flex;
     flex: auto;
     flex-direction: column;
-    border: 2px solid yellow;
+    /* border: 2px solid yellow; */
 }
 
 .gridSquare {
     flex: auto;
-    border: 2px solid orange;
+    /*border: 2px solid orange;*/
 }
