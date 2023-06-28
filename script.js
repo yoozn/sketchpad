@@ -18,6 +18,11 @@ let mouseDown = false;
 button.addEventListener('click', onReset);
 colourInput.addEventListener('change', (e) => {boxColour = e.target.value});
 hoverCheck.addEventListener('click', (e)=> {hoverMode = !hoverMode});
+normalBtn.addEventListener('click', ()=>  mode = 'normal');
+gradientBtn.addEventListener('click', ()=> mode = 'gradient');
+rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
+container.addEventListener('mousedown', ()=> mouseDown = true);
+container.addEventListener('mouseup', ()=> mouseDown = false);
 eraserBtn.addEventListener('click', ()=>  {  
     eraser = !eraser
     if (eraser) {
@@ -27,18 +32,12 @@ eraserBtn.addEventListener('click', ()=>  {
             canvas.style.cursor = 'url("pencil.png"), default';
         }
     });
-normalBtn.addEventListener('click', ()=>  mode = 'normal');
-gradientBtn.addEventListener('click', ()=> mode = 'gradient');
-rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
-container.addEventListener('mousedown', ()=> mouseDown = true);
-container.addEventListener('mouseup', ()=> mouseDown = false);
 
-
+//figure out click bug
 function randomColour() {
     let rVal = Math.floor(Math.random() * 256) + 1;
     let gVal = Math.floor(Math.random() * 256) + 1;
     let bVal = Math.floor(Math.random() * 256) + 1;
-    console.log(rVal);
     return `rgb(${rVal}, ${gVal}, ${bVal})`;
 }
 
@@ -48,29 +47,41 @@ function onReset () {
     else createCanvas(16);
 }
 
+function initializeSquares(gridSquare) {
+    onHover(gridSquare);
+    onClick(gridSquare);
+}
+
 function onHover(gridSquare) {
     gridSquare.style.opacity = 0;
-    gridSquare.addEventListener('mouseover', (e) => {
-        if (hoverMode == true || mouseDown == true) {
-            if (eraser) {
+    gridSquare.addEventListener('mouseover', colourSquare);
+}
+
+function onClick(gridSquare) {
+    gridSquare.style.opacity = 0;
+    gridSquare.addEventListener('click', colourSquare);
+}
+
+function colourSquare(e) {
+    if (hoverMode == true || mouseDown == true || e.type == 'click') {
+        if (eraser) {
+            e.target.style.opacity = 1;
+            e.target.style.backgroundColor = 'white';
+        } else {
+            if (mode == 'normal') {
                 e.target.style.opacity = 1;
-                e.target.style.backgroundColor = 'white';
-            } else {
-                if (mode == 'normal') {
-                    e.target.style.opacity = 1;
-                    e.target.style.backgroundColor = boxColour;
-                }
-                else if (mode == 'gradient') {
-                    e.target.style.backgroundColor = boxColour;
-                    if (e.target.style.opacity <= 1) e.target.style.opacity = Number(e.target.style.opacity) + .1;
-                }
-                else if (mode == 'rainbow') {
-                    e.target.style.opacity = 1;
-                    e.target.style.backgroundColor = randomColour();
-                }
+                e.target.style.backgroundColor = boxColour;
+            }
+            else if (mode == 'gradient') {
+                e.target.style.backgroundColor = boxColour;
+                if (e.target.style.opacity <= 1) e.target.style.opacity = Number(e.target.style.opacity) + .1;
+            }
+            else if (mode == 'rainbow') {
+                e.target.style.opacity = 1;
+                e.target.style.backgroundColor = randomColour();
             }
         }
-    });
+    }
 }
 
 function detectMouseUp() {
@@ -96,6 +107,7 @@ function createCanvas(size) {
     }
 
     gridSquares = document.querySelectorAll('.gridSquare');
+    // gridSquares.forEach(initializeSquares);
     gridSquares.forEach(onHover);
     gridSquares.forEach(onClick);
 }
