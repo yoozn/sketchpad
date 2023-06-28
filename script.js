@@ -9,6 +9,7 @@ const rainbowBtn = document.querySelector('#rainbow-btn');
 const hoverCheck = document.querySelector('#hover-check');
 let canvas;
 let gridSquares;
+let gradient = false;
 let mode = 'normal';
 let eraser = false;
 let boxColour = 'black';
@@ -20,7 +21,7 @@ button.addEventListener('click', onReset);
 colourInput.addEventListener('change', (e) => {boxColour = e.target.value});
 hoverCheck.addEventListener('click', (e)=> {hoverMode = !hoverMode});
 normalBtn.addEventListener('click', ()=>  mode = 'normal');
-gradientBtn.addEventListener('click', ()=> mode = 'gradient');
+gradientBtn.addEventListener('click', ()=> gradient = !gradient);
 rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
 container.addEventListener('mousedown', ()=> mouseDown = true);
 container.addEventListener('mouseup', ()=> mouseDown = false);
@@ -75,16 +76,17 @@ function colourSquare(e) {
             e.target.style.opacity = 0;
             e.target.style.backgroundColor = 'white';
         } else {
-            if (mode == 'normal') {
-                e.target.style.opacity = 1;
-                e.target.style.backgroundColor = boxColour;
-            }
-            else if (mode == 'gradient') {
-                e.target.style.backgroundColor = boxColour;
+            if (gradient) {
                 if (e.target.style.opacity <= 1) e.target.style.opacity = Number(e.target.style.opacity) + .1;
             }
-            else if (mode == 'rainbow') {
+            else {
                 e.target.style.opacity = 1;
+            }
+            if (mode == 'normal') {
+                e.target.style.backgroundColor = boxColour;
+            }
+
+            else if (mode == 'rainbow') {
                 e.target.style.backgroundColor = randomColour();
             }
         }
