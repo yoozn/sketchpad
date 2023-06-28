@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: rgb(36, 202, 147);
+}
+
+#container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#title {
+    margin-top: .3em;
+    font-size: 3em;
+    font-weight: 500;
+}
+
+.canvas {
+    display:flex;
+    border: .5em solid red;
+    min-width: 600px;
+    min-height: 600px;
+    background-color: white;
+}
+
+.column {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    border: 2px solid yellow;
+}
+
+.gridSquare {
+    flex: auto;
+    border: 2px solid orange;
+}
