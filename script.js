@@ -1,3 +1,4 @@
+const body = document.querySelector('#body')
 const container = document.querySelector('#container');
 const button = document.querySelector('#reset-btn');
 const colourInput = document.querySelector('#colour-input');
@@ -8,7 +9,7 @@ const rainbowBtn = document.querySelector('#rainbow-btn');
 const hoverCheck = document.querySelector('#hover-check');
 let canvas;
 let gridSquares;
-let mode = 'rainbow';
+let mode = 'normal';
 let eraser = false;
 let boxColour = 'black';
 let hoverMode = true;
@@ -23,7 +24,12 @@ gradientBtn.addEventListener('click', ()=> mode = 'gradient');
 rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
 container.addEventListener('mousedown', ()=> mouseDown = true);
 container.addEventListener('mouseup', ()=> mouseDown = false);
-eraserBtn.addEventListener('click', ()=>  {  
+body.addEventListener('keydown', (e)  => {
+    if (e.code == "KeyE") toggleEraser() 
+});
+eraserBtn.addEventListener('click', toggleEraser);
+
+function toggleEraser() {
     eraser = !eraser
     if (eraser) {
         canvas.style.cursor = 'url("eraser.png"), default';
@@ -31,7 +37,7 @@ eraserBtn.addEventListener('click', ()=>  {
         else {
             canvas.style.cursor = 'url("pencil.png"), default';
         }
-    });
+}
 
 //figure out click bug
 function randomColour() {
