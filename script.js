@@ -1,40 +1,57 @@
+//container references
 const body = document.querySelector('#body')
 const container = document.querySelector('#container');
 const pageContentContainer = document.querySelector('#page-content');
 const leftContainer = document.querySelector('.left');
+//main tools references
 const resetButton = document.querySelector('#reset-btn');
 const colourInput = document.querySelector('#colour-input');
 const eraserBtn = document.querySelector('#eraser-btn');
+//different modes references
 const normalBtn = document.querySelector('#normal-btn');
-const gradientBtn = document.querySelector('#gradient-btn');
 const rainbowBtn = document.querySelector('#rainbow-btn');
-const hoverCheck = document.querySelector('#hover-check');
+//extra tool references
+const gradientBtn = document.querySelector('#gradient-btn');
+const hoverCheckbox = document.querySelector('#hover-check');
 
+//node list references
 const buttons = document.querySelectorAll('button');
 const inputs = document.querySelectorAll('input');
+
+//canvas container (not const because dynamically created and deleted)
 let canvas;
+//individual 'pixel' grid square nodelist
 let gridSquares;
+//tool conditionals and modes
 let gradient = false;
 let mode = 'normal';
 let eraser = false;
-let boxColour = 'black';
-let hoverMode = true;
-let size = 16;
+let hoverMode = false;
+//used when click draw mode is enabled (check if user is clicking on grid)
 let mouseDown = false;
+//colour of paintbrush
+let boxColour = 'black';
+//size of canvas (row and column length)
+let size = 16;
 
+//main tool listeners
 resetButton.addEventListener('click', onReset);
 colourInput.addEventListener('change', (e) => {boxColour = e.target.value});
-hoverCheck.addEventListener('click', (e)=> {hoverMode = !hoverMode});
+eraserBtn.addEventListener('click', toggleEraser);
+//mode listeners
 normalBtn.addEventListener('click', () => switchMode('normal'));
-gradientBtn.addEventListener('click', ()=> switchMode('gradient'));
 rainbowBtn.addEventListener('click', () => switchMode('rainbow'));
+//extra tool toggle listeners
+gradientBtn.addEventListener('click', ()=> switchMode('gradient'));
+hoverCheckbox.addEventListener('click', (e)=> {hoverMode = !hoverMode});
+//listeners for click draw mode
 container.addEventListener('mousedown', ()=> mouseDown = true);
 container.addEventListener('mouseup', ()=> mouseDown = false);
+//hotkey listeners
 body.addEventListener('keydown', (e)  => {
     if (e.code == "KeyE") toggleEraser() 
     if (e.code == "KeyR") createCanvas(size);
 });
-eraserBtn.addEventListener('click', toggleEraser);
 
 
 //Hover transition (making elements bigger when hovering)
@@ -49,7 +66,6 @@ inputs.forEach((input)=> {
         })
         input.addEventListener('mouseleave', ()=> input.classList.remove('hover-transition'));
     });
-
 
 function switchMode(newMode) {
     if (newMode == 'normal') {
@@ -79,7 +95,7 @@ function toggleEraser() {
         }
 }
 
-//figure out click bug
+//generate random colour (used for rainbow mode)
 function randomColour() {
     let rVal = Math.floor(Math.random() * 256) + 1;
     let gVal = Math.floor(Math.random() * 256) + 1;
@@ -93,21 +109,26 @@ function onReset () {
     else createCanvas(16);
 }
 
+//called on creation of canvas for each individual grid square
 function initializeSquares(gridSquare) {
     onHover(gridSquare);
     onClick(gridSquare);
 }
 
+//add listener to each square to be coloured when moused over (hover) or clicked (click draw)
+//set opacity to 0 as initial, if gradient off, then set opacity to 1 while drawing. if gradient on, then add .1 to opacity
 function onHover(gridSquare) {
     gridSquare.style.opacity = 0;
     gridSquare.addEventListener('mouseover', colourSquare);
 }
 
 function onClick(gridSquare) {
-    gridSquare.style.opacity = 0;
     gridSquare.addEventListener('click', colourSquare);
 }
 
+//check if the hovermode is on, the mouse is being dragged, or the square was just clicked on
+//then check if eraser enabled => set square opacity back to 0 (reset square for gradient mode), and set colour to white
+//else check mode and change colour accordingly
 function colourSquare(e) {
     if (hoverMode == true || mouseDown == true || e.type == 'click') {
         if (eraser) {
@@ -131,16 +152,18 @@ function colourSquare(e) {
     }
 }
 
+//create canvas of size entered. Called onced at beginning of page load, and when reset button pressed.
 function createCanvas(size) {
     //toggles the button border around normal on reset
     switchMode('normal');
-
+    //if canvas already exists, delete it
     if (canvas) {
         pageContentContainer.removeChild(canvas);
     }
     canvas = document.createElement('div');
     canvas.classList.add('canvas');
     leftContainer.after(canvas);
+    //create 'size' # of columns, and in each column create 'size' # of squares
     for (let i = 0; i < size; i++) {
         const column = document.createElement('div');
         column.classList.add('column');
@@ -152,12 +175,11 @@ function createCanvas(size) {
         }
     }
 
+    //assign gridSquares nodelist, initialize hover and click events for each square
     gridSquares = document.querySelectorAll('.gridSquare');
-    // gridSquares.forEach(initializeSquares);
     gridSquares.forEach(onHover);
     gridSquares.forEach(onClick);
 }
 
-
+//initial canvas creation
 createCanvas(16);
-console.log("hello world");
