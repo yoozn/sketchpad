@@ -41,6 +41,7 @@ body {
     min-width: 7em;
     flex: 1.2 1 auto;
     margin-top: .8em;
+    background-color: rgb(255, 199, 199);
 }
 
 .hover-check-div,
@@ -69,12 +70,14 @@ button {
     color: black;
     font-size: 1.4em;
     transition-duration: .07s;
+    outline: none;
+    border: solid black;
 }
 
 .button-select {
     border: solid gold .2em;
-    background-color: rgb(167, 237, 255);
-    transform: scale(1.1)
+    background-color: rgb(185, 255, 197);
+    transform: scale(1.1);
 }
 
 input {
