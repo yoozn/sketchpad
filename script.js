@@ -1,13 +1,17 @@
 const body = document.querySelector('#body')
 const container = document.querySelector('#container');
 const pageContentContainer = document.querySelector('#page-content');
-const button = document.querySelector('#reset-btn');
+const leftContainer = document.querySelector('.left');
+const resetButton = document.querySelector('#reset-btn');
 const colourInput = document.querySelector('#colour-input');
 const eraserBtn = document.querySelector('#eraser-btn');
 const normalBtn = document.querySelector('#normal-btn');
 const gradientBtn = document.querySelector('#gradient-btn');
 const rainbowBtn = document.querySelector('#rainbow-btn');
 const hoverCheck = document.querySelector('#hover-check');
+
+const buttons = document.querySelectorAll('button');
+const inputs = document.querySelectorAll('input');
 let canvas;
 let gridSquares;
 let gradient = false;
@@ -18,12 +22,12 @@ let hoverMode = true;
 let size = 16;
 let mouseDown = false;
 
-button.addEventListener('click', onReset);
+resetButton.addEventListener('click', onReset);
 colourInput.addEventListener('change', (e) => {boxColour = e.target.value});
 hoverCheck.addEventListener('click', (e)=> {hoverMode = !hoverMode});
-normalBtn.addEventListener('click', ()=>  mode = 'normal');
-gradientBtn.addEventListener('click', ()=> gradient = !gradient);
-rainbowBtn.addEventListener('click', ()=> mode = 'rainbow');
+normalBtn.addEventListener('click', () => switchMode('normal'));
+gradientBtn.addEventListener('click', ()=> switchMode('gradient'));
+rainbowBtn.addEventListener('click', () => switchMode('rainbow'));
 container.addEventListener('mousedown', ()=> mouseDown = true);
 container.addEventListener('mouseup', ()=> mouseDown = false);
 body.addEventListener('keydown', (e)  => {
@@ -32,13 +36,46 @@ body.addEventListener('keydown', (e)  => {
 });
 eraserBtn.addEventListener('click', toggleEraser);
 
+
+//Hover transition (making elements bigger when hovering)
+buttons.forEach((button)=> {
+    button.addEventListener('mouseover', ()=> {button.classList.add('hover-transition');
+    })
+    button.addEventListener('mouseleave', ()=> button.classList.remove('hover-transition'));
+});
+
+inputs.forEach((input)=> {
+        input.addEventListener('mouseover', ()=> {input.classList.add('hover-transition');
+        })
+        input.addEventListener('mouseleave', ()=> input.classList.remove('hover-transition'));
+    });
+
+
+function switchMode(newMode) {
+    if (newMode == 'normal') {
+        normalBtn.classList.add('button-select');
+        rainbowBtn.classList.remove('button-select');
+        mode = 'normal'
+    } else if (newMode == 'rainbow') {
+        normalBtn.classList.remove('button-select');
+        rainbowBtn.classList.add('button-select');
+        mode = 'rainbow';
+    } else if (newMode == 'gradient') {
+        gradient = !gradient;
+        if (gradient) gradientBtn.classList.add('button-select');
+        else gradientBtn.classList.remove('button-select');
+    }
+}
+
 function toggleEraser() {
     eraser = !eraser
     if (eraser) {
         body.style.cursor = 'url("eraser.png"), default';
+        eraserBtn.classList.add('button-select');
         }
         else {
             body.style.cursor = 'url("pencil.png"), default';
+            eraserBtn.classList.remove('button-select');
         }
 }
 
@@ -95,12 +132,15 @@ function colourSquare(e) {
 }
 
 function createCanvas(size) {
+    //toggles the button border around normal on reset
+    switchMode('normal');
+
     if (canvas) {
         container.removeChild(canvas);
     }
     canvas = document.createElement('div');
     canvas.classList.add('canvas');
-    pageContentContainer.appendChild(canvas);
+    leftContainer.after(canvas);
     for (let i = 0; i < size; i++) {
         const column = document.createElement('div');
         column.classList.add('column');
