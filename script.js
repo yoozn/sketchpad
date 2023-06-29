@@ -136,7 +136,7 @@ function createCanvas(size) {
     switchMode('normal');
 
     if (canvas) {
-        container.removeChild(canvas);
+        pageContentContainer.removeChild(canvas);
     }
     canvas = document.createElement('div');
     canvas.classList.add('canvas');
