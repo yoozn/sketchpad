@@ -98,6 +98,37 @@ input {
     margin-top: .3em;
     font-size: 3em;
     font-weight: 500;
+    display:flex;
+}
+
+.letter {
+    font-family: 'Lobster', cursive;
+    margin:0;
+    padding:0;
+}
+
+.c {
+    color:rgb(253, 64, 17);
+}
+
+.o1 {
+    color:rgb(255, 145, 0)
+}
+
+.l {
+    color:rgb(255, 212, 18)
+}
+
+.o2 {
+    color: rgb(147, 238, 0)
+}
+
+.u {
+    color:rgb(0, 238, 238);
+}
+
+.r {
+    color: rgb(98, 55, 255);
 }
 
 .canvas {
