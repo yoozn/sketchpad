@@ -19,6 +19,30 @@ body {
     flex-direction: column;
 }
 
+#page-content {
+    display: flex;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    min-width: 13em;
+    gap: .5em;
+    padding: .5em;
+}
+#reset-btn {
+}
+
+button {
+    flex: auto;
+    border-radius: 2em;
+    font-size: 1.4em;
+}
+
+input {
+    flex: .4 1 .4em;
+}
+
 #title {
     margin-top: .3em;
     font-size: 3em;

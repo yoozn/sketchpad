@@ -1,5 +1,6 @@
 const body = document.querySelector('#body')
 const container = document.querySelector('#container');
+const pageContentContainer = document.querySelector('#page-content');
 const button = document.querySelector('#reset-btn');
 const colourInput = document.querySelector('#colour-input');
 const eraserBtn = document.querySelector('#eraser-btn');
@@ -93,17 +94,13 @@ function colourSquare(e) {
     }
 }
 
-function detectMouseUp() {
-
-}
-
 function createCanvas(size) {
     if (canvas) {
         container.removeChild(canvas);
     }
     canvas = document.createElement('div');
     canvas.classList.add('canvas');
-    container.appendChild(canvas);
+    pageContentContainer.appendChild(canvas);
     for (let i = 0; i < size; i++) {
         const column = document.createElement('div');
         column.classList.add('column');
